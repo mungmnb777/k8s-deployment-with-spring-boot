@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: k8s-server
+  name: k8s-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: k8s-server
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: k8s-server
+    spec:
+      containers:
+        - image: mungmnb777/k8s:latest
+          name: k8s-server
+          resources: {}
+          ports:
+            - containerPort : 8080
+      #     volumeMounts:
+      #     - name: config-volume
+      #       mountPath: /etc/config
+      # volumes:
+      #   - name: config-volume
+      #     configMap:
+      #       name: k8s-config
+          env:
+          - name: RANDOM_DATA
+            valueFrom:
+              configMapKeyRef:
+                name: k8s-config
+                key: data.json
+              
